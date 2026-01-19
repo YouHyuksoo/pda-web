@@ -14,6 +14,9 @@ import { NextRequest } from 'next/server';
 import { oracle } from '@/lib/db/oracle';
 import { success, error, serverError } from '@/lib/api/response';
 
+
+/** 동적 라우트 설정 - 빌드 시 정적 생성 방지 */
+export const dynamic = 'force-dynamic';
 /**
  * GET /api/plan/mount
  * 장착된 부품 목록 조회

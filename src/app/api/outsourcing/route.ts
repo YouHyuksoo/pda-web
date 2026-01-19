@@ -20,6 +20,9 @@ import { NextRequest } from 'next/server';
 import { oracle } from '@/lib/db/oracle';
 import { success, error, serverError } from '@/lib/api/response';
 
+
+/** 동적 라우트 설정 - 빌드 시 정적 생성 방지 */
+export const dynamic = 'force-dynamic';
 /**
  * 외주출고 저장 요청 인터페이스
  */

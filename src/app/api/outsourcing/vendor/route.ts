@@ -11,6 +11,9 @@
 import { oracle } from '@/lib/db/oracle';
 import { success, serverError } from '@/lib/api/response';
 
+
+/** 동적 라우트 설정 - 빌드 시 정적 생성 방지 */
+export const dynamic = 'force-dynamic';
 /**
  * 업체 인터페이스 (BMF300)
  */

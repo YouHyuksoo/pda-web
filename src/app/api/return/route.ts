@@ -18,6 +18,9 @@ import { NextRequest } from 'next/server';
 import { oracle } from '@/lib/db/oracle';
 import { success, error, serverError } from '@/lib/api/response';
 
+
+/** 동적 라우트 설정 - 빌드 시 정적 생성 방지 */
+export const dynamic = 'force-dynamic';
 /**
  * GET /api/return
  * 반품 대상 BOX 정보 조회
