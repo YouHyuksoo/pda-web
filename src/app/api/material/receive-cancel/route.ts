@@ -19,7 +19,7 @@ import { success, error, serverError } from '@/lib/api/response';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { saupj, whsCode, items, userId } = body;
+    const { whsCode, items, userId } = body;
 
     if (!whsCode) {
       return error('창고 코드는 필수입니다.');

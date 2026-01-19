@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
       WHERE A.QTY > 0
     `;
 
-    const params: Record<string, unknown> = {};
+    const params: Record<string, string> = {};
 
     if (processCode) {
       sql += ' AND A.PROCESS_CODE = :processCode';

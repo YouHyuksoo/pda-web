@@ -56,7 +56,6 @@ export function useSession(): UseSessionReturn {
     lastActivityAt,
     isSessionExpired,
     updateActivity,
-    checkSession,
     logout,
   } = useAuthStore();
 

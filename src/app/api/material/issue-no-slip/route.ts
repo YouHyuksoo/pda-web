@@ -31,42 +31,6 @@ export async function POST(request: NextRequest) {
 
     // 자재 불출 처리
     // TODO: 실제 프로시저/테이블에 맞게 수정 필요
-    const sql = `
-      BEGIN
-        FOR i IN 1..:itemCount LOOP
-          -- 출고 창고 재고 차감
-          UPDATE PMS100
-          SET QTY = QTY - :qty,
-              UPD_USER = :userId,
-              UPD_DATE = SYSDATE
-          WHERE BOX_NO = :boxNo
-            AND WHS_CODE = :fromWhsCode;
-
-          -- 입고 창고 재고 증가 또는 생성
-          MERGE INTO PMS100 A
-          USING (SELECT :boxNo AS BOX_NO, :itemCode AS ITEM_CODE, :toWhsCode AS WHS_CODE FROM DUAL) B
-          ON (A.BOX_NO = B.BOX_NO AND A.WHS_CODE = B.WHS_CODE)
-          WHEN MATCHED THEN
-            UPDATE SET A.QTY = A.QTY + :qty, A.UPD_USER = :userId, A.UPD_DATE = SYSDATE
-          WHEN NOT MATCHED THEN
-            INSERT (BOX_NO, ITEM_CODE, WHS_CODE, QTY, REG_USER, REG_DATE)
-            VALUES (B.BOX_NO, B.ITEM_CODE, B.WHS_CODE, :qty, :userId, SYSDATE);
-
-          -- 이동 이력 기록
-          INSERT INTO PMB300 (
-            MOVE_DATE, SEQ_NO, BOX_NO, ITEM_CODE,
-            FROM_WHS, TO_WHS, QTY,
-            REG_USER, REG_DATE
-          ) VALUES (
-            :issueDate, PMB300_SEQ.NEXTVAL, :boxNo, :itemCode,
-            :fromWhsCode, :toWhsCode, :qty,
-            :userId, SYSDATE
-          );
-        END LOOP;
-        COMMIT;
-      END;
-    `;
-
     let successCount = 0;
     const wkDate = issueDate?.replace(/-/g, '') || new Date().toISOString().slice(0, 10).replace(/-/g, '');
 

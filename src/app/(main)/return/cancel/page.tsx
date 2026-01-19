@@ -33,7 +33,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { WarehouseSelect } from '@/components/forms/WarehouseSelect';
 import { useAuthStore } from '@/stores/auth-store';
-import { formatNumber } from '@/lib/utils/string';
 import {
   showSuccess,
   showError,
