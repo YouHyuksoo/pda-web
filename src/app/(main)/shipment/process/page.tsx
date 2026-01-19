@@ -23,7 +23,7 @@
 
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { format } from 'date-fns';
 import { Save, Trash2, X, Package, Truck } from 'lucide-react';
 
@@ -46,7 +46,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
 import {
   Dialog,
   DialogContent,
@@ -64,7 +63,6 @@ import {
   showScanSuccess,
   showScanError,
   handleApiError,
-  showInfo,
 } from '@/lib/utils/toast';
 
 /** API 응답 인터페이스 */
@@ -146,11 +144,13 @@ export default function ShipmentProcessPage() {
     setForm('HS400', '출하처리');
     loadComboData();
     loadChasu();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setForm]);
 
   // 날짜 변경 시 차수 재조회
   useEffect(() => {
     loadChasu();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shipDate]);
 
   // 합계 계산
