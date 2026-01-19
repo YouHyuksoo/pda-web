@@ -19,10 +19,11 @@ import oracledb, { BindParameters } from 'oracledb';
 // Oracle Thick 모드 초기화 (Oracle Instant Client 필요)
 // Windows에서는 Oracle Instant Client 경로 설정 필요
 try {
-  // Oracle Instant Client 경로 (필요시 환경에 맞게 수정)
-  // oracledb.initOracleClient({ libDir: 'C:\\oracle\\instantclient_21_3' });
-} catch {
-  console.warn('Oracle Instant Client 초기화 생략 (Thin 모드 사용)');
+  // Oracle Instant Client 경로
+  oracledb.initOracleClient({ libDir: 'C:\\instantclient_23_0' });
+  console.log('Oracle Thick 모드 초기화 완료');
+} catch (err) {
+  console.warn('Oracle Instant Client 초기화 실패 (Thin 모드 사용):', err);
 }
 
 /**
