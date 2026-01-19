@@ -77,7 +77,6 @@ interface ApiResponse<T> {
 interface ComboItem {
   code: string;
   name: string;
-  relCode?: string; // 연관 코드 (출고처 → 업체 연동용)
 }
 
 /** 출하 BOX 그리드 아이템 (Grid1) */
@@ -169,8 +168,8 @@ export default function ShipmentProcessPage() {
         setWarehouseList([{ code: '', name: '선택' }, ...whResult.data]);
       }
 
-      // 출고처 목록 (S1012, relCode='4')
-      const destRes = await fetch('/api/common/combo?majorCode=S1012&relCode=4');
+      // 출고처 목록 (S1012)
+      const destRes = await fetch('/api/common/combo?majorCode=S1012');
       const destResult: ApiResponse<ComboItem[]> = await destRes.json();
       if (destResult.success && destResult.data) {
         setDestinationList([{ code: '', name: '선택' }, ...destResult.data]);
@@ -209,15 +208,9 @@ export default function ShipmentProcessPage() {
     }
   };
 
-  // ===== 출고처 선택 시 업체 자동 연동 (cboOuter_SelectedIndexChanged) =====
+  // ===== 출고처 선택 (cboOuter_SelectedIndexChanged) =====
   const handleDestinationChange = (value: string) => {
     setDestination(value);
-
-    // 출고처에 연결된 업체 코드 찾기
-    const selectedDest = destinationList.find((d) => d.code === value);
-    if (selectedDest?.relCode) {
-      setCustomer(selectedDest.relCode);
-    }
   };
 
   // ===== BOX 스캔 처리 (DoBoxNo) =====
