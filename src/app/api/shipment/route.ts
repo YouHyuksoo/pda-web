@@ -23,7 +23,10 @@ import { success, error, serverError } from '@/lib/api/response';
 export const dynamic = 'force-dynamic';
 /**
  * GET /api/shipment
- * 출하 차수 조회
+ * 출하 차수 조회 (DoCHASU)
+ *
+ * @param action - 'getChasu' (차수 조회)
+ * @param wkDate - 출하일자 (YYYYMMDD 또는 YYYY-MM-DD)
  */
 export async function GET(request: NextRequest) {
   try {
@@ -34,14 +37,17 @@ export async function GET(request: NextRequest) {
       return error('날짜를 선택해주십시오');
     }
 
-    // 차수 조회 (PMB900)
+    // 날짜 형식 정규화 (YYYY-MM-DD → YYYYMMDD)
+    const normalizedDate = wkDate.replace(/-/g, '');
+
+    // 차수 조회 (PMB900) - DoCHASU
     const sql = `
       SELECT NVL(MAX(CHASU), 0) + 1 AS CHASU
       FROM PMB900
       WHERE WKDATE = :wkDate
     `;
 
-    const result = await oracle.scalar<number>(sql, { wkDate });
+    const result = await oracle.scalar<number>(sql, { wkDate: normalizedDate });
     const chasu = result || 1;
 
     return success({ chasu });
